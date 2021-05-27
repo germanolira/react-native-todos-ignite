@@ -20,6 +20,9 @@ interface MyTasksListProps {
 }
 
 export function MyTasksList({ tasks, onLongPress, onPress }: MyTasksListProps) {
+  const { nightMode } = useColorTheme();
+
+  
   return (
     <FlatList
       data={tasks}
@@ -29,14 +32,28 @@ export function MyTasksList({ tasks, onLongPress, onPress }: MyTasksListProps) {
           <TouchableOpacity
             testID={`button-${index}`}
             activeOpacity={0.7}
+            onPress={() => onPress(item.id)}
+            onLongPress={() => onLongPress(item.id)}
+            style={[
+              styles.taskButton, 
+              item.done && styles.taskButtonDone,
+            ]}
             //TODO - use onPress, onLongPress and style props
           >
             <View 
               testID={`marker-${index}`}
-              //TODO - use style prop 
+              style={[
+                styles.taskMarkerDone,
+                item.done && styles.taskMarker
+              ]}
+              //TODO - use style prop
             />
             <Text 
               //TODO - use style prop
+              style={[
+                styles.taskTextDone,
+                item.done && styles.taskText
+              ]}
             >
               {item.title}
             </Text>
@@ -103,3 +120,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'line-through'
   }
 })
+
+function useColorTheme(): { nightMode: any; } {
+  throw new Error('Function not implemented.');
+}
